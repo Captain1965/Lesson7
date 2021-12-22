@@ -42,8 +42,10 @@ class Station
 
   	private # 											метод валидации
  	def validate!
-    raise "Вы ввели неправильное название станции"	if @name !~ /^([А-Я])([а-я]){1,}/
-    raise "Вы не ввели название станции" if @name == ""
+ 		errors = []
+    errors << "Вы ввели неправильное название станции"	if @name !~ /^([А-Я])([а-я]){1,}/
+    errors << "Вы не ввели название станции" if @name == ""
+    raise errors.join(";") unless errors.empty?
   end
 end
 

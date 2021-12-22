@@ -43,11 +43,7 @@ class Train
   end
 
   def delete_wagon
-    if @wagons.size > 0
-      @wagons.delete_at(-1)
-    else
-      puts 'нет вагонов для удаления'
-    end
+    @wagons.delete_at(-1) if @wagons.size > 0
   end
 
   def speed(value)
@@ -76,11 +72,13 @@ class Train
   rescue
     false
   end
-
-  private                             # метод для валидации
+                                      # метод для проверки
+  private
   def validate!
-    raise "Вы ввели неправильный номер поезда" if @train_name !~ /^([а-я0-9])([а-я0-9])([а-я0-9])(-|)([а-я0-9])([а-я0-9])/i
-    raise "Вы не ввели номер поезда" if @train_name ==""
-    raise "Номер не может быть меньше 5 символов" if @train_name < 5
+    errors = []
+    errors << "Вы ввели неправильный номер поезда" if @train_name !~ /^([а-я0-9])([а-я0-9])([а-я0-9])(-|)([а-я0-9])([а-я0-9])/i
+    errors << "Вы не ввели номер поезда" if @train_name ==""
+    errors << "Номер не может быть меньше 5 символов" if @train_name < 5
+    raise errors.join(";") unless errors.empty?
   end
 end
